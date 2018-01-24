@@ -7,9 +7,10 @@ import (
 	"net/http"
 	"net/url"
 	"sync"
+	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/cardigann/go-cloudflare-scraper"
+	"github.com/zoh/go-cloudflare-scraper"
 )
 
 type negotiationResponse struct {
@@ -62,6 +63,7 @@ func negotiate(scheme, address string) (negotiationResponse, error) {
 
 	client := &http.Client{
 		Transport: scraper,
+		Timeout:   time.Minute * 10,
 	}
 
 	reply, err := client.Get(negotiationUrl.String())
